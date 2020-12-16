@@ -12,6 +12,7 @@ import ReplayTime from '~backend/api/ReplayTime';
 export default class ReplayApi {
   public static serverProcess: ChildProcess;
   public static serverStartPath: string;
+  public static nodePath: string;
   private static sessions = new Set<http2.ClientHttp2Session>();
   private static localApiHost: string;
 
@@ -217,8 +218,9 @@ export default class ReplayApi {
       const replayDir = __dirname.split(`${Path.sep}replay${Path.sep}`).shift();
       this.serverStartPath = Path.resolve(replayDir, 'session-state/api/start');
     }
+    if (!this.nodePath) this.nodePath = 'node';
     console.log('Launching Replay API Server at %s', this.serverStartPath);
-    const child = spawn(`node "${this.serverStartPath}"`, args, {
+    const child = spawn(`${this.nodePath} "${this.serverStartPath}"`, args, {
       stdio: ['ignore', 'pipe', 'inherit'],
       shell: true,
       windowsHide: true,
@@ -229,6 +231,9 @@ export default class ReplayApi {
       },
     });
     this.serverProcess = child;
+    this.serverProcess.once('exit', () => {
+      this.serverProcess = null;
+    });
 
     child.stdout.setEncoding('utf8');
     const promise = await new Promise(resolve => {
