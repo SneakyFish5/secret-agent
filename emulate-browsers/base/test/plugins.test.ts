@@ -2,7 +2,7 @@ import * as Helpers from '@secret-agent/testing/helpers';
 import navigatorJson from '@secret-agent/emulate-chrome-80/navigator.json';
 import { inspect } from 'util';
 import Puppet from '@secret-agent/puppet';
-import Core from '@secret-agent/core';
+import { GlobalPool } from '@secret-agent/core';
 import BrowserEmulators from '@secret-agent/core/lib/BrowserEmulators';
 import Log from '@secret-agent/commons/Logger';
 import pluginsChrome from './plugins-Chrome.json';
@@ -15,7 +15,7 @@ const { navigator } = navigatorJson;
 
 let puppet: Puppet;
 beforeAll(async () => {
-  const engine = BrowserEmulators.getClass(Core.defaultBrowserEmulatorId).engine;
+  const engine = BrowserEmulators.getClass(GlobalPool.defaultBrowserEmulatorId).engine;
   puppet = new Puppet(engine);
   Helpers.onClose(() => puppet.close(), true);
   puppet.start();

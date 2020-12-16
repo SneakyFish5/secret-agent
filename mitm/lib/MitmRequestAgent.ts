@@ -149,7 +149,7 @@ export default class MitmRequestAgent {
     if (!this.socketPoolByOrigin[origin]) {
       this.socketPoolByOrigin[origin] = {
         alpn: null,
-        queue: new Queue(),
+        queue: new Queue('SOCKET TO ORIGIN'),
         pending: [],
         all: new Set<MitmSocket>(),
         free: [],

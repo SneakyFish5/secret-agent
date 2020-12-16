@@ -59,7 +59,7 @@ export default class RequestSession extends TypedEventEmitter<IRequestSessionEve
   constructor(
     readonly sessionId: string,
     readonly useragent: string,
-    readonly upstreamProxyUrl?: string,
+    public upstreamProxyUrl?: string,
     readonly networkInterceptorDelegate: INetworkInterceptorDelegate = { http: {} },
   ) {
     super();

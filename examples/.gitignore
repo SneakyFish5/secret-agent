@@ -2,3 +2,5 @@
 *.js
 !example.org.ts
 !news.ycombinator.com.ts
+!default-example.mjs
+!ulixee.org.ts
